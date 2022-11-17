@@ -1,0 +1,129 @@
+app:
+  profile: /home/app/files
+  addressEnabled: true
+  lookCacheEnabled: true
+  jwt:
+    # 默认7天登录状态
+    maxAge: 7
+    # 密钥
+    secret: "y@^gAqOj3Xjt0pcbTYVeqfH#v3Grm_z$i#aCxEApI6t%QP%#*6x87NJDnYpeb@&k"
+    # app jwt 请求头
+    header: Appx
+
+server:
+  port: 8888
+  servlet:
+    context-path: /dev-api
+  tomcat:
+    uri-encoding: UTF-8
+    accept-count: 1000
+    threads:
+      max: 800
+      min-spare: 100
+
+spring:
+  application:
+    name: app
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+  # 资源信息
+  messages:
+    # 国际化资源文件路径
+    basename: static/i18n/messages
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true  #避免hibernate懒加载，导致查询数据库失败
+    #        format_sql: true  #格式化sql
+    show-sql: true    #展示sql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    # 每次运行程序，没有表格会新建表格，表内有数据 不会清空，只会更新
+    hibernate:
+      ddl-auto: update
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    druid:
+      url: jdbc:mysql://10.0.0.1:3306/app?useUnicode=true&characterEncoding=utf-8&usesSL=true&serverTimezone=GMT%2B8
+      username: app
+      password: 123456
+      # 初始连接数
+      initialSize: 5
+      # 最小连接池数量
+      minIdle: 10
+      # 最大连接池数量
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      maxEvictableIdleTimeMillis: 900000
+      # 配置检测连接是否有效
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      webStatFilter:
+        enabled: true
+      # 开启监控
+      statViewServlet:
+        enabled: true
+        # 设置白名单，不填则允许所有访问
+        allow:
+        # 设置黑名单
+        deny:
+        url-pattern: /druid/*
+        # 控制台管理用户名和密码
+        login-username: admin
+        login-password: 123456
+        web-stat-filter:
+          # 开启web监控
+          enabled: true
+          # 需要监控的路径
+          url-pattern: /*
+          # 不监控静态文件跟监控系统自己的请求
+          exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.icon,/druid/*"
+          # 统计请求调用链
+          profile-enable: true
+        #开启spring-aop监控
+#        aop-patterns: cn.sc.*,*.controller,*.service
+      filter:
+        stat:
+          enabled: true
+          # 慢SQL记录
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+        slf4j:
+          enabled: true
+          statement-executable-sql-log-enable: true
+
+# 日志配置
+logging:
+  level:
+    cn.sc.app: debug
+    org.springframework: warn
+
+knife4j:
+  enable: true # 开启增强模式
+
+# token配置
+token:
+  # 令牌自定义标识
+  header: Authorization
+  # 令牌密钥
+  secret: CGL4#N0C\7{c~iQi!-z2{_nme/1WJ`u-Vsh7
+  # 令牌有效期（默认30分钟）
+  expireTime: 30
