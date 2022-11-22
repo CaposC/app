@@ -6,7 +6,7 @@ app:
     # 默认7天登录状态
     maxAge: 7
     # 密钥
-    secret: "y@^gAqOj3Xjt0pcbTYVeqfH#v3Grm_z$i#aCxEApI6t%QP%#*6x87NJDnYpeb@&k"
+    secret: "12345678910"
     # app jwt 请求头
     header: Appx
 
@@ -124,6 +124,6 @@ token:
   # 令牌自定义标识
   header: Authorization
   # 令牌密钥
-  secret: CGL4#N0C\7{c~iQi!-z2{_nme/1WJ`u-Vsh7
+  secret: 123456
   # 令牌有效期（默认30分钟）
   expireTime: 30
